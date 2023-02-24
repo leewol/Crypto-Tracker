@@ -4,24 +4,12 @@ import { useLocation, useParams, useMatch } from "react-router";
 import { Outlet, Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import Header from "../components/Header";
 
 const Container = styled.div`
   padding: 0 20px;
   max-width: 480px;
   margin: 0 auto;
-`;
-
-const Header = styled.header`
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-`;
-
-const Title = styled.h1`
-  color: ${(props) => props.theme.accentColor};
-  font-size: 48px;
 `;
 
 const Loader = styled.span`
@@ -158,11 +146,11 @@ function Coin() {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </title>
       </Helmet>
-      <Header>
-        <Title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-        </Title>
-      </Header>
+      <Header
+        title={
+          state?.name ? state.name : loading ? "Loading..." : infoData?.name
+        }
+      />
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (

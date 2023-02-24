@@ -3,19 +3,12 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import Header from "../components/Header";
 
 const Container = styled.div`
   padding: 0 20px;
   max-width: 480px;
   margin: 0 auto;
-`;
-
-const Header = styled.header`
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
 `;
 
 const CoinsList = styled.ul``;
@@ -41,11 +34,6 @@ const Coin = styled.li`
   }
 `;
 
-const Title = styled.h1`
-  color: ${(props) => props.theme.accentColor};
-  font-size: 48px;
-`;
-
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -69,15 +57,13 @@ interface ICoin {
 
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
-  console.log(isLoading, data);
+
   return (
     <Container>
       <Helmet>
         <title>코인</title>
       </Helmet>
-      <Header>
-        <Title>코인</Title>
-      </Header>
+      <Header title="코인" />
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
