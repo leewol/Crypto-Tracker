@@ -1,11 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowCircleLeft,
-  faHouse,
-  faSun,
-  faMoon,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 interface IHeaderProps {
@@ -37,31 +32,20 @@ const LeftBox = styled.div``;
 
 const RightBox = styled.div`
   text-align: right;
-  .header-icon:first-child {
-    margin-right: 10px;
-  }
 `;
 
 function Header({ title }: IHeaderProps) {
-  const navigate = useNavigate();
-  const onBackClick = () => {
-    navigate(-1);
-  };
-
   return (
     <HeaderContainer>
       <LeftBox>
-        <FontAwesomeIcon
-          onClick={onBackClick}
-          className="header-icon"
-          icon={faArrowCircleLeft}
-        />
+        {title !== "코인" ? (
+          <Link to="/">
+            <FontAwesomeIcon className="header-icon" icon={faHouse} />
+          </Link>
+        ) : null}
       </LeftBox>
       <Title>{title}</Title>
       <RightBox>
-        <Link to="/">
-          <FontAwesomeIcon className="header-icon" icon={faHouse} />
-        </Link>
         <FontAwesomeIcon className="header-icon" icon={faSun} />
       </RightBox>
     </HeaderContainer>
