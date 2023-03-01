@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+import { useDark } from "../Root";
 
 interface IHeaderProps {
   title?: string;
@@ -35,6 +36,8 @@ const RightBox = styled.div`
 `;
 
 function Header({ title }: IHeaderProps) {
+  const { isDark, toggleDark } = useDark();
+
   return (
     <HeaderContainer>
       <LeftBox>
@@ -46,7 +49,11 @@ function Header({ title }: IHeaderProps) {
       </LeftBox>
       <Title>{title}</Title>
       <RightBox>
-        <FontAwesomeIcon className="header-icon" icon={faSun} />
+        <FontAwesomeIcon
+          className="header-icon"
+          icon={isDark ? faSun : faMoon}
+          onClick={toggleDark}
+        />
       </RightBox>
     </HeaderContainer>
   );

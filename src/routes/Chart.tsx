@@ -2,6 +2,7 @@ import { useLocation } from "react-router";
 import { useQuery } from "react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
+import { useIsDark } from "./Coin";
 
 interface RouteState {
   state: {
@@ -21,6 +22,7 @@ interface IHistorical {
 }
 
 function Chart() {
+  const { isDark } = useIsDark();
   const {
     state: { coinId },
   } = useLocation() as RouteState;
@@ -47,7 +49,7 @@ function Chart() {
           ]}
           options={{
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             chart: {
               height: 300,

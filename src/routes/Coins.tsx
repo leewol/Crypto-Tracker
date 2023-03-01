@@ -14,15 +14,15 @@ const Container = styled.div`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardColor};
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
   border-radius: 20px;
   a {
-    transition: color 0.3s ease-in;
     display: flex;
     align-items: center;
     padding: 20px;
+    transition: color 0.2s ease-in;
   }
   &:hover {
     a {

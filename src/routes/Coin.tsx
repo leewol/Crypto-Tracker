@@ -1,10 +1,16 @@
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet";
-import { useLocation, useParams, useMatch } from "react-router";
+import {
+  useLocation,
+  useParams,
+  useMatch,
+  useOutletContext,
+} from "react-router";
 import { Outlet, Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Header from "../components/Header";
+import { useDark } from "../Root";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -20,7 +26,7 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -51,7 +57,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.tabColor};
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
@@ -123,7 +129,12 @@ interface TickersData {
   };
 }
 
+interface IOutletContext {
+  isDark: boolean;
+}
+
 function Coin() {
+  const { isDark } = useDark();
   const { coinId } = useParams();
   const { state } = useLocation() as RouteState;
   const priceMatch = useMatch("/:coinId/price");
@@ -190,11 +201,15 @@ function Coin() {
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <Outlet />
+          <Outlet context={{ isDark }} />
         </>
       )}
     </Container>
   );
+}
+
+export function useIsDark() {
+  return useOutletContext<IOutletContext>();
 }
 
 export default Coin;

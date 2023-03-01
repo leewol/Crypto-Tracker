@@ -1,6 +1,8 @@
 import { ReactQueryDevtools } from "react-query/devtools";
-import { createGlobalStyle } from "styled-components";
-import { Outlet } from "react-router";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { Outlet, useOutletContext } from "react-router";
+import { darkTheme, lightTheme } from "./theme";
+import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -33,6 +35,7 @@ const GlobalStyle = createGlobalStyle`
   /* HTML5 hidden-attribute fix for newer browsers */
   * {
     box-sizing: border-box;
+    transition: all 0.1s linear;
   }
   *[hidden] {
       display: none;
@@ -64,14 +67,27 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+interface IOutletContext {
+  isDark: boolean;
+  toggleDark: () => void;
+}
+
 function Root() {
+  const [isDark, setIsDark] = useState(false);
+  const toggleDark = () => setIsDark((current) => !current);
   return (
     <>
-      <GlobalStyle />
-      <Outlet />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlobalStyle />
+        <Outlet context={{ isDark, toggleDark }} />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </>
   );
+}
+
+export function useDark() {
+  return useOutletContext<IOutletContext>();
 }
 
 export default Root;
